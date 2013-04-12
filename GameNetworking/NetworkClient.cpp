@@ -49,7 +49,19 @@ inline int NetworkClient::bindToServer(string ip, unsigned short port) {
 }
 
 void NetworkClient::updateGameState() {
-	
+	char local_buf[MAX_PACKET_SIZE];
+	while(1) {
+		memset(local_buf,'\0', MAX_PACKET_SIZE);
+		int recv_len;
+		if ((recv_len = recv(m_sock, local_buf, MAX_PACKET_SIZE, 0) == SOCKET_ERROR) {
+			printf("recvfrom() failed with error code : %d" , WSAGetLastError());
+			cin >> a;
+			exit(EXIT_FAILURE);
+		}	
+		EnterCriticalSection(&m_cs);
+		m_gameState.push_back(string(local_buf));
+		LeaveCriticalSection(&m_cs);
+	}
 }
 
 

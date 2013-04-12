@@ -9,7 +9,7 @@
 
 #define WIN32_LEAN_AND_MEAN
 #define DEFAULT_PORT 5555
-
+#define MAX_PACKET_SIZE 65507
 using namespace std;
 
 class Network
