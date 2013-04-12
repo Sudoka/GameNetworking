@@ -2,10 +2,14 @@
 #include<WinSock2.h>
 #include<string>
 #include<iostream>
+#include<process.h>
 #include"Sendable.h"
 
 #pragma comment(lib,"ws2_32.lib")
+
+#define WIN32_LEAN_AND_MEAN
 #define DEFAULT_PORT 5555
+
 using namespace std;
 
 class Network
