@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameClient", "GameNetworking\GameNetworking.vcxproj", "{E791F7D3-3EAD-4CF6-AAB7-8C6D59C7F8EE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameServer", "GameServer\GameServer.vcxproj", "{0CD7612F-4143-44DB-ADEF-CC11CABE9047}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E791F7D3-3EAD-4CF6-AAB7-8C6D59C7F8EE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E791F7D3-3EAD-4CF6-AAB7-8C6D59C7F8EE}.Debug|Win32.Build.0 = Debug|Win32
+		{E791F7D3-3EAD-4CF6-AAB7-8C6D59C7F8EE}.Release|Win32.ActiveCfg = Release|Win32
+		{E791F7D3-3EAD-4CF6-AAB7-8C6D59C7F8EE}.Release|Win32.Build.0 = Release|Win32
+		{0CD7612F-4143-44DB-ADEF-CC11CABE9047}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0CD7612F-4143-44DB-ADEF-CC11CABE9047}.Debug|Win32.Build.0 = Debug|Win32
+		{0CD7612F-4143-44DB-ADEF-CC11CABE9047}.Release|Win32.ActiveCfg = Release|Win32
+		{0CD7612F-4143-44DB-ADEF-CC11CABE9047}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
