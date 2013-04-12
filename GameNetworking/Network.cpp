@@ -1,4 +1,5 @@
 #include "Network.h"
+#include<WinSock2.h>
 
 
 Network::Network(void) {
