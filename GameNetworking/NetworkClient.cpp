@@ -1,31 +1,33 @@
 #include "NetworkClient.h"
 
-
 NetworkClient::NetworkClient(void) {
 	Network::Network();
+	InitializeCriticalSection(&m_cs);
 	if( (m_sock = socket(AF_INET , SOCK_DGRAM , 0 )) == INVALID_SOCKET )  {
         //cerr << "Could not create socket : " <<  WSAGetLastError() << endl;
 		throw runtime_error("Could not create socket : " + WSAGetLastError());
 	}
 }
 
-NetworkClient::NetworkClient(string ip, unsigned short port) {
+NetworkClient::NetworkClient(string ip, unsigned short port):stateAvailable(false) {
 	Network::Network(ip, port);
+	InitializeCriticalSection(&m_cs);
 	if( (m_sock = socket(AF_INET , SOCK_DGRAM , 0 )) == INVALID_SOCKET )  {
         //cerr << "Could not create socket : " <<  WSAGetLastError() << endl;
 		throw runtime_error("Could not create socket : " + WSAGetLastError());
 	}
 }
 
-NetworkClient::NetworkClient(unsigned short port) {
+NetworkClient::NetworkClient(unsigned short port):stateAvailable(false) {
 	Network::Network(port);
+	InitializeCriticalSection(&m_cs);
 	if( (m_sock = socket(AF_INET , SOCK_DGRAM , 0 )) == INVALID_SOCKET )  {
         //cerr << "Could not create socket : " <<  WSAGetLastError() << endl;
 		throw runtime_error("Could not create socket : " + WSAGetLastError());
 	}
 }
 
-int NetworkClient::bindToServer(string ip, unsigned short port) {
+int NetworkClient::bindToServer(string ip, unsigned short port):stateAvailable(false) {
 	m_server = Network(ip, port);
 	if(bind(m_sock ,(struct sockaddr *)&(m_server.m_sockaddr),
 		sizeof(m_server.m_sockaddr)) == SOCKET_ERROR) {

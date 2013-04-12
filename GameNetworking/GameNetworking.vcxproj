@@ -14,6 +14,7 @@
     <ClInclude Include="Network.h" />
     <ClInclude Include="NetworkClient.h" />
     <ClInclude Include="NetworkServer.h" />
+    <ClInclude Include="Sendable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="client_driver.cpp" />

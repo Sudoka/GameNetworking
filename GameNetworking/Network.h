@@ -2,6 +2,7 @@
 #include<WinSock2.h>
 #include<string>
 #include<iostream>
+#include"Sendable.h"
 
 #pragma comment(lib,"ws2_32.lib")
 #define DEFAULT_PORT 5555

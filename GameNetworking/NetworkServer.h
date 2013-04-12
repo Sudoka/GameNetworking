@@ -10,5 +10,6 @@ public:
 	virtual ~NetworkServer(void);
 private:
 	SOCKET m_sock;
+	static CRITICAL_SECTION m_cs;
 };
 
