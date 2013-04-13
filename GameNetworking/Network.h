@@ -20,9 +20,38 @@ public:
 	Network(unsigned short port);
 	virtual ~Network(void);
 
-protected:
-	struct sockaddr_in& getSockAddr();
+	const Network& operator=(const Network &rhs) {
+		if(this == &rhs) {
+			return *this;
+		}
+		m_sockaddr.sin_addr = rhs.m_sockaddr.sin_addr;
+		m_sockaddr.sin_port = rhs.m_sockaddr.sin_port;
+		return *this;
+	}
+
+	bool operator<(const Network &rhs) const {
+		if (this->m_sockaddr.sin_addr.s_addr < rhs.m_sockaddr.sin_addr.s_addr){
+			return true;
+		} else if (this->m_sockaddr.sin_addr.s_addr > rhs.m_sockaddr.sin_addr.s_addr) {
+			return false;
+		} else {
+			return this->m_sockaddr.sin_port < rhs.m_sockaddr.sin_port;
+		}
+	}
+
+	bool operator==(const Network &rhs) const {
+		int this_ip = this->m_sockaddr.sin_addr.s_addr;
+		int rhs_ip = rhs.m_sockaddr.sin_addr.s_addr;
+		short this_port = this->m_sockaddr.sin_port;
+		short rhs_port = rhs.m_sockaddr.sin_port;
+		return this_ip == rhs_ip && this_port == rhs_port; 
+	}
+
+private:
+	Network(struct sockaddr_in);
+	struct sockaddr_in& getSockAddr() { return m_sockaddr; };
 	struct sockaddr_in m_sockaddr;
 	friend class NetworkClient;
+	friend class NetworkServer;
 };
 

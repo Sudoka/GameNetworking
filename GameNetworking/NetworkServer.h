@@ -1,9 +1,12 @@
 #pragma once
 #include "network.h"
 #include <vector>
+#include <map>
 
 typedef string Event;
+typedef string Entity;
 typedef vector<Event> EventBuff_t;
+typedef vector<Entity> State_t;
 
 class NetworkServer :
 	public Network
@@ -29,14 +32,22 @@ public:
 	//returns a vector of events received
 	EventBuff_t getEvents();
 
+	void broadcastGameState(const State_t &);
+
+	
+
 
 	virtual ~NetworkServer(void);
 private:
 
+	void sendToClient(char * const buff, int size, Network &client);
+
 	SOCKET m_sock;
+	map <Network, Network> m_connectedClients;
 	EventBuff_t m_eventsBuffer;
 	bool m_eventsAvailable;
-
+	char m_packetData[MAX_PACKET_SIZE];
+	
 	//thread stuff
 	CRITICAL_SECTION m_cs;
 	HANDLE m_hThread;

@@ -17,6 +17,10 @@ Network::Network(unsigned short port) {
 	m_sockaddr.sin_port = htons(port);
 }
 
+Network::Network(struct sockaddr_in si){
+	m_sockaddr.sin_addr = si.sin_addr;
+	m_sockaddr.sin_port = si.sin_port;
+}
 
 Network::~Network(void) {
 
