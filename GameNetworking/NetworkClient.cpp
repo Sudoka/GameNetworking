@@ -2,29 +2,32 @@
 
 NetworkClient::NetworkClient(void):m_stateAvailable(false) {
 	Network::Network();
+	WSAStartup(MAKEWORD(2,2),&wsa);
 	InitializeCriticalSection(&m_cs);
 	if( (m_sock = socket(AF_INET , SOCK_DGRAM , 0 )) == INVALID_SOCKET )  {
-		throw runtime_error("Could not create socket : " + WSAGetLastError());
+		throw runtime_error("Could not create socket : " + to_string((long long) WSAGetLastError()));
 	}
 }
 
 NetworkClient::NetworkClient(string ip, unsigned short port):m_stateAvailable(false) {
 	Network::Network(ip, port);
+	WSAStartup(MAKEWORD(2,2),&wsa);
 	InitializeCriticalSection(&m_cs);
 	if( (m_sock = socket(AF_INET , SOCK_DGRAM , 0 )) == INVALID_SOCKET )  {
-		throw runtime_error("Could not create socket : " + WSAGetLastError());
+		throw runtime_error("Could not create socket : " + to_string((long long) WSAGetLastError()));
 	}
 }
 
 NetworkClient::NetworkClient(unsigned short port):m_stateAvailable(false) {
 	Network::Network(port);
+	WSAStartup(MAKEWORD(2,2),&wsa);
 	InitializeCriticalSection(&m_cs);
 	if( (m_sock = socket(AF_INET , SOCK_DGRAM , 0 )) == INVALID_SOCKET )  {
-		throw runtime_error("Could not create socket : " + WSAGetLastError());
+		throw runtime_error("Could not create socket : " + to_string((long long) WSAGetLastError()));
 	}
 }
 
-inline int NetworkClient::bindToServer(string ip, unsigned short port) {
+int NetworkClient::bindToServer(string ip, unsigned short port) {
 
 	m_server = Network(ip, port);
 
@@ -47,7 +50,7 @@ inline int NetworkClient::bindToServer(string ip, unsigned short port) {
 
 void NetworkClient::sendToServer(Event e) {
 	if(sendto(m_sock, e.c_str(), e.size() + 1, 0, (sockaddr *) &m_server, sizeof(m_server)) == SOCKET_ERROR) {
-		throw runtime_error("sendto() failed with error code : " + WSAGetLastError());
+		throw runtime_error("sendto() failed with error code : " + to_string((long long) WSAGetLastError()));
 	}
 }
 

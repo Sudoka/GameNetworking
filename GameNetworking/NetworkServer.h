@@ -41,7 +41,7 @@ public:
 private:
 
 	void sendToClient(char * const buff, int size, Network &client);
-
+	WSADATA wsa;
 	SOCKET m_sock;
 	map <Network, Network> m_connectedClients;
 	EventBuff_t m_eventsBuffer;

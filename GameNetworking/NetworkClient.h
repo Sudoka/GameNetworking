@@ -44,6 +44,7 @@ public:
 
 private:
 	SOCKET m_sock;
+	WSADATA wsa;
 	Network m_server;
 	bool m_stateAvailable;
 	State_t m_gameState;

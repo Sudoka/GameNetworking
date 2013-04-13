@@ -1,18 +1,23 @@
 #include<iostream>
-#include"NetworkServer.h"
+#include"NetworkClient.h"
 
 using namespace std;
 
 int main(){
-	NetworkServer server;
-	EventBuff_t eventBuff;
-	for(;;){
-		if (server.eventsAvailable()){
-			eventBuff = server.getEvents();
-			for(unsigned int i = 0; i < eventBuff.size(); i++) {
-				cout << eventBuff[i] << endl;
-			}
+	int a;
+	try{
+		NetworkClient client(5556);
+		cout << "socket created" << endl;
+		State_t state;
+		client.bindToServer("127.0.0.1", DEFAULT_PORT);
+		while(1) {
+			client.sendToServer("hello server");
+			Sleep(10000);
 		}
+	} catch (const std::exception &exc){
+		cout << "exception occured!" << endl;
+		cout << exc.what() << endl;
+		cin >> a;
 	}
-
+	cin >> a;
 }

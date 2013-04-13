@@ -3,9 +3,11 @@
 
 NetworkServer::NetworkServer(void) : m_eventsAvailable(false) {
 	Network::Network();
+	WSAStartup(MAKEWORD(2,2),&wsa);
 	InitializeCriticalSection(&m_cs);
 	if( (m_sock = socket(AF_INET , SOCK_DGRAM , 0 )) == INVALID_SOCKET )  {
-		throw runtime_error("Could not create socket : " + WSAGetLastError());
+		throw runtime_error("Could not create socket : " + to_string((long long) WSAGetLastError()));
+		return;
 	}
 
 	unsigned int threadID;
@@ -19,9 +21,11 @@ NetworkServer::NetworkServer(void) : m_eventsAvailable(false) {
 
 NetworkServer::NetworkServer(string ip, unsigned short port) : m_eventsAvailable(false) {
 	Network::Network(ip, port);
+	WSAStartup(MAKEWORD(2,2),&wsa);
 	InitializeCriticalSection(&m_cs);
 	if( (m_sock = socket(AF_INET , SOCK_DGRAM , 0 )) == INVALID_SOCKET )  {
-		throw runtime_error("Could not create socket : " + WSAGetLastError());
+		throw runtime_error("Could not create socket : " + to_string((long long) WSAGetLastError()));
+		return;
 	}
 
 	unsigned int threadID;
@@ -35,9 +39,11 @@ NetworkServer::NetworkServer(string ip, unsigned short port) : m_eventsAvailable
 
 NetworkServer::NetworkServer(unsigned short port) : m_eventsAvailable(false) {
 	Network::Network(port);
+	WSAStartup(MAKEWORD(2,2),&wsa);
 	InitializeCriticalSection(&m_cs);
 	if( (m_sock = socket(AF_INET , SOCK_DGRAM , 0 )) == INVALID_SOCKET )  {
-		throw runtime_error("Could not create socket : " + WSAGetLastError());
+		throw runtime_error("Could not create socket : " + to_string((long long) WSAGetLastError()));
+
 	}
 
 	unsigned int threadID;
@@ -65,7 +71,7 @@ void NetworkServer::broadcastGameState(const State_t &state) {
 
 void NetworkServer::sendToClient(char * const buff, int size, Network &client) {
 	if(sendto(m_sock, buff, size, 0, (sockaddr *) &(client.getSockAddr()), sizeof(sockaddr_in)) == SOCKET_ERROR) {
-		throw runtime_error("sendto() failed with error code : " + WSAGetLastError());
+		throw runtime_error("sendto() failed with error code : " + to_string((long long) WSAGetLastError()));
 	}
 }
 
@@ -89,8 +95,7 @@ void NetworkServer::updateEventsBuffer() {
 		memset(local_buf,'\0', MAX_PACKET_SIZE);
 		int recv_len;
 		if ((recv_len = recvfrom(m_sock, local_buf, MAX_PACKET_SIZE, 0, (sockaddr *) &recv_addr, &recv_size) == SOCKET_ERROR)) {
-			printf("recvfrom() failed with error code : %d" , WSAGetLastError());
-			exit(EXIT_FAILURE);
+			throw runtime_error("recvfrom() failed with error code : " + to_string((long long) WSAGetLastError()));
 		}
 
 		Network lookUpAddr(recv_addr);
