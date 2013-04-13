@@ -4,7 +4,6 @@ NetworkClient::NetworkClient(void):m_stateAvailable(false) {
 	Network::Network();
 	InitializeCriticalSection(&m_cs);
 	if( (m_sock = socket(AF_INET , SOCK_DGRAM , 0 )) == INVALID_SOCKET )  {
-        //cerr << "Could not create socket : " <<  WSAGetLastError() << endl;
 		throw runtime_error("Could not create socket : " + WSAGetLastError());
 	}
 }
@@ -13,7 +12,6 @@ NetworkClient::NetworkClient(string ip, unsigned short port):m_stateAvailable(fa
 	Network::Network(ip, port);
 	InitializeCriticalSection(&m_cs);
 	if( (m_sock = socket(AF_INET , SOCK_DGRAM , 0 )) == INVALID_SOCKET )  {
-        //cerr << "Could not create socket : " <<  WSAGetLastError() << endl;
 		throw runtime_error("Could not create socket : " + WSAGetLastError());
 	}
 }
@@ -22,7 +20,6 @@ NetworkClient::NetworkClient(unsigned short port):m_stateAvailable(false) {
 	Network::Network(port);
 	InitializeCriticalSection(&m_cs);
 	if( (m_sock = socket(AF_INET , SOCK_DGRAM , 0 )) == INVALID_SOCKET )  {
-        //cerr << "Could not create socket : " <<  WSAGetLastError() << endl;
 		throw runtime_error("Could not create socket : " + WSAGetLastError());
 	}
 }
@@ -53,9 +50,8 @@ void NetworkClient::updateGameState() {
 	while(1) {
 		memset(local_buf,'\0', MAX_PACKET_SIZE);
 		int recv_len;
-		if ((recv_len = recv(m_sock, local_buf, MAX_PACKET_SIZE, 0) == SOCKET_ERROR) {
+		if ((recv_len = recv(m_sock, local_buf, MAX_PACKET_SIZE, 0) == SOCKET_ERROR)) {
 			printf("recvfrom() failed with error code : %d" , WSAGetLastError());
-			cin >> a;
 			exit(EXIT_FAILURE);
 		}	
 		EnterCriticalSection(&m_cs);
@@ -65,10 +61,10 @@ void NetworkClient::updateGameState() {
 }
 
 
-vector<Entity> NetworkClient::getGameState() {
+State_t NetworkClient::getGameState() {
 
 	EnterCriticalSection(&m_cs);
-	vector<Entity> rtn = m_gameState;
+	State_t rtn = m_gameState;
 	m_gameState.clear();
 	LeaveCriticalSection(&m_cs);
 
@@ -76,7 +72,7 @@ vector<Entity> NetworkClient::getGameState() {
 }
 
 NetworkClient::~NetworkClient(void) {
-	closesocket(m_sock);
 	CloseHandle(m_hThread);
+	closesocket(m_sock);	
     WSACleanup();
 }

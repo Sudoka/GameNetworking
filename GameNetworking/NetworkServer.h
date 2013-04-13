@@ -1,5 +1,10 @@
 #pragma once
 #include "network.h"
+#include <vector>
+
+typedef string Event;
+typedef vector<Event> EventBuff_t;
+
 class NetworkServer :
 	public Network
 {
@@ -18,9 +23,29 @@ public:
 	//Throws runtime_error exception if socket cannot be opened
 	NetworkServer(unsigned short port);
 
+	//returns true if there are new events available
+	bool eventsAvailable();
+
+	//returns a vector of events received
+	EventBuff_t getEvents();
+
+
 	virtual ~NetworkServer(void);
 private:
+
 	SOCKET m_sock;
+	EventBuff_t m_eventsBuffer;
+
+	//thread stuff
 	CRITICAL_SECTION m_cs;
+	HANDLE m_hThread;
+	void updateEventsBuffer();
+
+	static unsigned __stdcall ThreadStaticEntryPoint(void * pThis) {
+		NetworkServer * pthX = (NetworkServer*)pThis;
+		pthX->updateEventsBuffer();	
+		return 1;
+	}
+
 };
 

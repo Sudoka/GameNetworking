@@ -4,6 +4,7 @@
 #include <vector>
 
 typedef string Entity;
+typedef vector<Entity> State_t;
 
 class NetworkClient :
 	public Network
@@ -41,7 +42,7 @@ private:
 	SOCKET m_sock;
 	Network m_server;
 	bool m_stateAvailable;
-	vector<Entity> m_gameState;
+	State_t m_gameState;
 
 
 	//thread stuff
