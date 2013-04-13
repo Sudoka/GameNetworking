@@ -1,7 +1,7 @@
 #include "NetworkServer.h"
 
 
-NetworkServer::NetworkServer(void) {
+NetworkServer::NetworkServer(void) : m_eventsAvailable(false) {
 	Network::Network();
 	InitializeCriticalSection(&m_cs);
 	if( (m_sock = socket(AF_INET , SOCK_DGRAM , 0 )) == INVALID_SOCKET )  {
@@ -17,7 +17,7 @@ NetworkServer::NetworkServer(void) {
                       &threadID );
 }
 
-NetworkServer::NetworkServer(string ip, unsigned short port) {
+NetworkServer::NetworkServer(string ip, unsigned short port) : m_eventsAvailable(false) {
 	Network::Network(ip, port);
 	InitializeCriticalSection(&m_cs);
 	if( (m_sock = socket(AF_INET , SOCK_DGRAM , 0 )) == INVALID_SOCKET )  {
@@ -34,7 +34,7 @@ NetworkServer::NetworkServer(string ip, unsigned short port) {
 
 }
 
-NetworkServer::NetworkServer(unsigned short port) {
+NetworkServer::NetworkServer(unsigned short port) : m_eventsAvailable(false) {
 	Network::Network(port);
 	InitializeCriticalSection(&m_cs);
 	if( (m_sock = socket(AF_INET , SOCK_DGRAM , 0 )) == INVALID_SOCKET )  {
@@ -54,6 +54,7 @@ EventBuff_t NetworkServer::getEvents() {
 
 	EnterCriticalSection(&m_cs);
 	EventBuff_t rtn = m_eventsBuffer;
+	m_eventsAvailable = false;
 	m_eventsBuffer.clear();
 	LeaveCriticalSection(&m_cs);
 
@@ -69,9 +70,10 @@ void NetworkServer::updateEventsBuffer() {
 		if ((recv_len = recv(m_sock, local_buf, MAX_PACKET_SIZE, 0) == SOCKET_ERROR)) {
 			printf("recvfrom() failed with error code : %d" , WSAGetLastError());
 			exit(EXIT_FAILURE);
-		}	
+		}
 		EnterCriticalSection(&m_cs);
 		m_eventsBuffer.push_back(string(local_buf));
+		m_eventsAvailable = true;
 		LeaveCriticalSection(&m_cs);
 	}
 }

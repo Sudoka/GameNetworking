@@ -3,6 +3,7 @@
 #include <exception>
 #include <vector>
 
+typedef string Event;
 typedef string Entity;
 typedef vector<Entity> State_t;
 
@@ -29,10 +30,13 @@ public:
 	int bindToServer(string ip, unsigned short port);
 
 	//get the game state as currently known by the client
-	vector<Entity> getGameState();
+	State_t getGameState();
 
 	//returns true if there is a new gamestate
 	bool newStateAvailable() { return m_stateAvailable; };
+
+	//sentds event to server
+	void sendToServer(Event);
 
 
 	virtual ~NetworkClient(void);

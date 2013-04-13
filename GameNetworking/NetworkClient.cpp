@@ -45,6 +45,12 @@ inline int NetworkClient::bindToServer(string ip, unsigned short port) {
 	return 0;
 }
 
+void NetworkClient::sendToServer(Event e) {
+	if(sendto(m_sock, e.c_str(), e.size() + 1, 0, (sockaddr *) &m_server, sizeof(m_server)) == SOCKET_ERROR) {
+		throw runtime_error("sendto() failed with error code : " + WSAGetLastError());
+	}
+}
+
 void NetworkClient::updateGameState() {
 	char local_buf[MAX_PACKET_SIZE];
 	while(1) {

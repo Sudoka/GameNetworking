@@ -24,7 +24,7 @@ public:
 	NetworkServer(unsigned short port);
 
 	//returns true if there are new events available
-	bool eventsAvailable();
+	bool eventsAvailable() { return m_eventsAvailable; };
 
 	//returns a vector of events received
 	EventBuff_t getEvents();
@@ -35,6 +35,7 @@ private:
 
 	SOCKET m_sock;
 	EventBuff_t m_eventsBuffer;
+	bool m_eventsAvailable;
 
 	//thread stuff
 	CRITICAL_SECTION m_cs;
