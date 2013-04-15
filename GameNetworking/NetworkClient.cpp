@@ -81,7 +81,7 @@ void NetworkClient::updateGameState() {
 		}
 		EnterCriticalSection(&m_cs);
 		Entity n;
-		m_gameState.push_back(n.decode(string(local_buf)));
+		m_gameState.push_back(n.decode(local_buf));
 		//m_gameState.push_back(string(local_buf);
 		LeaveCriticalSection(&m_cs);
 	}

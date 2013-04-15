@@ -105,12 +105,11 @@ void NetworkServer::updateEventsBuffer() {
 			 runtime_error e("recvfrom() failed with error code : " + to_string((long long) WSAGetLastError()));
 			 throw e;
 		}
-
 		Network lookUpAddr(recv_addr);
 		EnterCriticalSection(&m_cs);
 		m_connectedClients[Network(recv_addr)] = lookUpAddr;
 		Entity n;
-		m_eventsBuffer.push_back(n.decode(string(local_buf)));
+		m_eventsBuffer.push_back(n.decode(local_buf));
 		m_eventsAvailable = true;
 		LeaveCriticalSection(&m_cs);
 	}

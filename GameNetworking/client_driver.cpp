@@ -12,7 +12,7 @@ int main(){
 		client.bindToServer("127.0.0.1", 8888);
 		while(1) {
 			client.sendToServer(Entity());
-			Sleep(8);
+			Sleep(1000);
 			state = client.getGameState();
 			for(int i = 0; i < state.size(); i++) {
 				cout << state[i].getID() << " " << state[i].m_pos << " " << state[i].m_dir << endl;
