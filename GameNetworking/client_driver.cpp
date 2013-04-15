@@ -7,7 +7,7 @@ using namespace std;
 int main(){
 	try{
 		cout << "Client:" << endl;
-		NetworkClient client("127.0.0.1", DEFAULT_PORT + 1);		
+		NetworkClient client;		
 		cout << "socket created" << endl;
 		State_t state;
 		client.bindToServer("127.0.0.1", 8888);

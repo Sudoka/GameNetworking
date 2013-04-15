@@ -14,20 +14,29 @@ int main(){
 		NetworkServer server(8888);
 		cout << "socket created:" << endl;
 		EventBuff_t eventBuff;
-		for(;;){
-			if (server.eventsAvailable()){
+		State_t gameState;
+		D3DXVECTOR3 m_pos(2,2,2);
+		D3DXVECTOR3 m_dir(1,1,1);
+		//gameState.push_back(Entity());
+		gameState.push_back(Entity(m_pos, m_dir));
+
+		for(;;) {
+			if (server.eventsAvailable()) {
 				eventBuff = server.getEvents();
 				for(unsigned int i = 0; i < eventBuff.size(); i++) {
 					cout << eventBuff[i] << endl;
 				}
 			}
-			if(eventBuff.size() < 50 && eventBuff.size() != 0) {
-				server.broadcastGameState(eventBuff);
+			if(eventBuff.size() < 50 && !eventBuff.empty()) {
+				gameState[0].m_pos.z += .05;
+				server.broadcastGameState(gameState);
 			}
-			eventBuff.clear();
+			if(!eventBuff.empty()) {
+				eventBuff.clear();
+			}
 			Sleep(16);
 		}
-	} catch (exception &e){
+	} catch (exception &e) {
 		cout << "exception occured!" << endl;
 		cerr << e.what() << endl;
 		system("pause");
