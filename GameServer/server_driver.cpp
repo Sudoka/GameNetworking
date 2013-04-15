@@ -9,34 +9,36 @@ void printEntity(Entity const &e) {
 	}
 
 int main(){
-	Entity e1;
+	/*Entity e1;
 	printEntity(e1);
 	const char* s = e1.encode();
 	Entity e2(e1.decode(s));
 	printEntity(e2);
 	int a;
-	cin >> a;
+	cin >> a;*/
 
-	/*try{
+	try{
+		cout << "Server:" << endl;
 		NetworkServer server(8888);
+		cout << "socket created:" << endl;
 		EventBuff_t eventBuff;
 		for(;;){
 			if (server.eventsAvailable()){
 				eventBuff = server.getEvents();
 				for(unsigned int i = 0; i < eventBuff.size(); i++) {
-					printEntity(eventBuff[i]);
+					cout << eventBuff[i] << endl;
 				}
 			}
-			if(eventBuff.size() < 50) {
+			if(eventBuff.size() < 50 && eventBuff.size() != 0) {
 				server.broadcastGameState(eventBuff);
 			}
 			eventBuff.clear();
-			Sleep(16);
+			Sleep(500);
 		}
 	} catch (exception &e){
 		cerr << e.what() << endl;
 	}
-*/
+
 	
 
 }

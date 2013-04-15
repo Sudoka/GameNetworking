@@ -1,15 +1,16 @@
 
 /*
- * Entity.cpp
- */
+* Entity.cpp
+*/
 
 #include "entity.h"
 #include <iostream>
 
 int Entity::s_id_gen = 0;
+const unsigned int Entity::size = sizeof(m_type) + sizeof(m_id) +  2*sizeof(D3DXVECTOR3);
 
 Entity::Entity() :
-	m_id(s_id_gen++),
+m_id(s_id_gen++),
 	m_pos(D3DXVECTOR3(0.0, 0.0, 0.0)),
 	m_dir(D3DXVECTOR3(0.0, 0.0, 1.0)),
 	m_type(ENTITY)
@@ -17,12 +18,19 @@ Entity::Entity() :
 }
 
 Entity::Entity(D3DXVECTOR3 pos, D3DXVECTOR3 dir) : 
-	m_id(s_id_gen++),
+m_id(s_id_gen++),
 	m_pos(pos),
 	m_dir(dir),
 	m_type(ENTITY)
 {
 }
+
+ostream& operator<<(ostream& os, const Entity& e) {
+	os << e.getID() << " " << e.m_pos.x << " " << e.m_pos.y << " " << e.m_pos.z
+		<< " " << e.m_dir.x << " " << e.m_dir.y << " " << e.m_dir.z;
+	return os;
+}
+
 
 const char * Entity::encode() const {
 	char * tmp = new char[sizeof(Entity)];

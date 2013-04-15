@@ -46,6 +46,8 @@ public:
 #include <d3d9.h>
 #include <d3dx9.h>
 #include "../GameNetworking/Sendable.h"
+#include<iostream>
+using namespace std;
 
 enum Type { ENTITY, SHIP, BASE, ASTEROID};
 
@@ -56,6 +58,7 @@ private:
 
 public:
 	Type m_type;
+	static const unsigned int size;
 	D3DXVECTOR3 m_pos;
 	D3DXVECTOR3 m_dir;
 
@@ -72,6 +75,9 @@ public:
 	virtual ~Entity();
 	virtual const char * encode() const;
 	virtual Entity decode(const char *) const;
+	friend ostream& operator<<(ostream& os, const Entity& e);
+	
 };
+
 
 #endif

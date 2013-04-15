@@ -58,14 +58,19 @@ NetworkServer::NetworkServer(unsigned short port) : Network(port), m_eventsAvail
 void NetworkServer::broadcastGameState(const State_t &state) {
 	map<Network,Network>::iterator start = m_connectedClients.begin();
 	map<Network,Network>::iterator end = m_connectedClients.end();
-	string local_string;
+	char local_buff[MAX_PACKET_SIZE] = { 0 };
 	memset(m_packetData,'\0', MAX_PACKET_SIZE);
+	unsigned int total_size = 0;
 	for(unsigned int i = 0; i < state.size(); i++) {
-		local_string += state[i].encode();
+		const char* tmp = state[i].encode();
+		memcpy(local_buff + total_size, tmp, Entity::size);
+		total_size += Entity::size;
+		delete tmp;
 	}
-	strncpy(this->m_packetData, local_string.c_str(), MAX_PACKET_SIZE);
+	//memcpy(m_packetData
+	//strncpy(this->m_packetData, local_string.c_str(), MAX_PACKET_SIZE);
 	for(map<Network,Network>::iterator it = start; it != end; it++) {
-		sendToClient(m_packetData, strlen(m_packetData)+1, it->second);
+		sendToClient(local_buff, total_size, it->second);
 	}
 }
 
