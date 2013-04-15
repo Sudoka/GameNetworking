@@ -1,28 +1,33 @@
 #include "NetworkClient.h"
 
-NetworkClient::NetworkClient(void):m_stateAvailable(false) {
-	Network::Network();
-	WSAStartup(MAKEWORD(2,2),&wsa);
+NetworkClient::NetworkClient(void):Network(), m_stateAvailable(false) {
+	
+	if (WSAStartup(MAKEWORD(2,2),&wsa) != 0) {
+       throw runtime_error("WSAStartup failed : " + to_string((long long) WSAGetLastError()));
+	}
 	InitializeCriticalSection(&m_cs);
-	if( (m_sock = socket(AF_INET , SOCK_DGRAM , 0 )) == INVALID_SOCKET )  {
+	if( (m_sock = socket(AF_INET , SOCK_DGRAM, 0 )) == INVALID_SOCKET )  {
 		throw runtime_error("Could not create socket : " + to_string((long long) WSAGetLastError()));
 	}
 }
 
-NetworkClient::NetworkClient(string ip, unsigned short port):m_stateAvailable(false) {
-	Network::Network(ip, port);
-	WSAStartup(MAKEWORD(2,2),&wsa);
+NetworkClient::NetworkClient(string ip, unsigned short port): Network(ip, port), m_stateAvailable(false) {
+	
+	if (WSAStartup(MAKEWORD(2,2),&wsa) != 0) {
+       throw runtime_error("WSAStartup failed : " + to_string((long long) WSAGetLastError()));
+	}
 	InitializeCriticalSection(&m_cs);
-	if( (m_sock = socket(AF_INET , SOCK_DGRAM , 0 )) == INVALID_SOCKET )  {
+	if( (m_sock = socket(AF_INET , SOCK_DGRAM , IPPROTO_UDP )) == INVALID_SOCKET )  {
 		throw runtime_error("Could not create socket : " + to_string((long long) WSAGetLastError()));
 	}
 }
 
-NetworkClient::NetworkClient(unsigned short port):m_stateAvailable(false) {
-	Network::Network(port);
-	WSAStartup(MAKEWORD(2,2),&wsa);
+NetworkClient::NetworkClient(unsigned short port): Network(port), m_stateAvailable(false) {
+	if (WSAStartup(MAKEWORD(2,2),&wsa) != 0) {
+       throw runtime_error("WSAStartup failed : " + to_string((long long) WSAGetLastError()));
+	}
 	InitializeCriticalSection(&m_cs);
-	if( (m_sock = socket(AF_INET , SOCK_DGRAM , 0 )) == INVALID_SOCKET )  {
+	if( (m_sock = socket(AF_INET , SOCK_DGRAM , IPPROTO_UDP)) == INVALID_SOCKET )  {
 		throw runtime_error("Could not create socket : " + to_string((long long) WSAGetLastError()));
 	}
 }
@@ -32,24 +37,31 @@ int NetworkClient::bindToServer(string ip, unsigned short port) {
 	m_server = Network(ip, port);
 
 	//bind server port to socket
-	if(bind(m_sock ,(struct sockaddr *)&(m_server.m_sockaddr),
-		sizeof(m_server.m_sockaddr)) == SOCKET_ERROR) {
+	if(bind(m_sock ,(struct sockaddr *)&(this->m_sockaddr),
+		sizeof(m_sockaddr)) == SOCKET_ERROR) {
 			return WSAGetLastError();
 	}
 
 	//start thread to recv data from server
-	unsigned int threadID;
-	m_hThread = (HANDLE)_beginthreadex( NULL, // security
-                      0,             // stack size
-                      NetworkClient::ThreadStaticEntryPoint,// entry-point-function
-                      this,           // arg list holding the "this" pointer
-                      0,		
-                      &threadID );
+	//unsigned int threadID;
+	//m_hThread = (HANDLE)_beginthreadex( NULL, // security
+ //                     0,             // stack size
+ //                     NetworkClient::ThreadStaticEntryPoint,// entry-point-function
+ //                     this,           // arg list holding the "this" pointer
+ //                     0,		
+ //                     &threadID );
 	return 0;
 }
 
 void NetworkClient::sendToServer(Event e) {
-	if(sendto(m_sock, e.c_str(), e.size() + 1, 0, (sockaddr *) &m_server, sizeof(m_server)) == SOCKET_ERROR) {
+	//char local_buf[MAX_PACKET_SIZE];
+	//strcpy(local_buf, e.c_str());
+	struct sockaddr_in server;
+	server.sin_family = AF_INET;
+    server.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
+    server.sin_port = htons( 8888 );
+	m_server = Network("127.0.0.1", 8888);
+	if(sendto(m_sock, e.c_str(), e.length(), 0, (sockaddr *) &m_server.getSockAddr(), sizeof(server)) == SOCKET_ERROR) {
 		throw runtime_error("sendto() failed with error code : " + to_string((long long) WSAGetLastError()));
 	}
 }
@@ -59,10 +71,13 @@ void NetworkClient::updateGameState() {
 	while(1) {
 		memset(local_buf,'\0', MAX_PACKET_SIZE);
 		int recv_len;
-		if ((recv_len = recv(m_sock, local_buf, MAX_PACKET_SIZE, 0) == SOCKET_ERROR)) {
-			printf("recvfrom() failed with error code : %d" , WSAGetLastError());
-			exit(EXIT_FAILURE);
-		}	
+		try {
+			if ((recv_len = recv(m_sock, local_buf, MAX_PACKET_SIZE, 0) == SOCKET_ERROR)) {
+				throw runtime_error("recvfrom() failed with error code : " + to_string((long long) WSAGetLastError()));
+			}
+		} catch (exception e) {
+			cerr << e.what() << endl;
+		}
 		EnterCriticalSection(&m_cs);
 		m_gameState.push_back(string(local_buf));
 		LeaveCriticalSection(&m_cs);

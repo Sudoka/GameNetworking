@@ -2,6 +2,7 @@
 #include "network.h"
 #include <exception>
 #include <vector>
+#include<assert.h>
 
 typedef string Event;
 typedef string Entity;

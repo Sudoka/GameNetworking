@@ -24,6 +24,7 @@ public:
 		if(this == &rhs) {
 			return *this;
 		}
+		m_sockaddr.sin_family = rhs.m_sockaddr.sin_family;
 		m_sockaddr.sin_addr = rhs.m_sockaddr.sin_addr;
 		m_sockaddr.sin_port = rhs.m_sockaddr.sin_port;
 		return *this;

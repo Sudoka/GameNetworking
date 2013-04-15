@@ -45,6 +45,7 @@ private:
 	SOCKET m_sock;
 	map <Network, Network> m_connectedClients;
 	EventBuff_t m_eventsBuffer;
+	void bindSocket();
 	bool m_eventsAvailable;
 	char m_packetData[MAX_PACKET_SIZE];
 	

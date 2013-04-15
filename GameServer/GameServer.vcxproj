@@ -39,6 +39,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>C:\Users\Eric\Documents\Visual Studio 2010\Projects\CSE125\GameNetworking\GameNetworking;$(IncludePath)</IncludePath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>C:\Users\Eric\Documents\Visual Studio 2010\Projects\CSE125\GameNetworking\GameNetworking;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -72,6 +75,9 @@
     <ClCompile Include="..\GameNetworking\NetworkClient.cpp" />
     <ClCompile Include="..\GameNetworking\NetworkServer.cpp" />
     <ClCompile Include="server_driver.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
