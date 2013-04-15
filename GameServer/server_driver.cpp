@@ -14,6 +14,11 @@ int main(){
 					cout << eventBuff[i] << endl;
 				}
 			}
+			if(eventBuff.size() < 50) {
+				server.broadcastGameState(eventBuff);
+			}
+			eventBuff.clear();
+			Sleep(16);
 		}
 	} catch (exception &e){
 		cerr << e.what() << endl;

@@ -43,13 +43,13 @@ int NetworkClient::bindToServer(string ip, unsigned short port) {
 	}
 
 	//start thread to recv data from server
-	//unsigned int threadID;
-	//m_hThread = (HANDLE)_beginthreadex( NULL, // security
- //                     0,             // stack size
- //                     NetworkClient::ThreadStaticEntryPoint,// entry-point-function
- //                     this,           // arg list holding the "this" pointer
- //                     0,		
- //                     &threadID );
+	unsigned int threadID;
+	m_hThread = (HANDLE)_beginthreadex( NULL, // security
+                      0,             // stack size
+                      NetworkClient::ThreadStaticEntryPoint,// entry-point-function
+                      this,           // arg list holding the "this" pointer
+                      0,		
+                      &threadID );
 	return 0;
 }
 
