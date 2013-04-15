@@ -37,10 +37,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\Eric\Documents\Visual Studio 2010\Projects\CSE125\GameNetworking\GameNetworking;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\GameNetworking;$(ProjectDir)..\core;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\Users\Eric\Documents\Visual Studio 2010\Projects\CSE125\GameNetworking\GameNetworking;$(IncludePath)</IncludePath>
+    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)..\GameNetworking;$(ProjectDir)..\core;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -66,18 +67,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\core\Entity.h" />
     <ClInclude Include="..\GameNetworking\Network.h" />
     <ClInclude Include="..\GameNetworking\NetworkClient.h" />
     <ClInclude Include="..\GameNetworking\NetworkServer.h" />
+    <ClInclude Include="..\GameNetworking\Sendable.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\core\entity.cpp" />
     <ClCompile Include="..\GameNetworking\Network.cpp" />
     <ClCompile Include="..\GameNetworking\NetworkClient.cpp" />
     <ClCompile Include="..\GameNetworking\NetworkServer.cpp" />
     <ClCompile Include="server_driver.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

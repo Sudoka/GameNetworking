@@ -2,10 +2,11 @@
 #include "network.h"
 #include <vector>
 #include <map>
+#include "../core/Entity.h"
 
-typedef string Event;
-typedef string Entity;
-typedef vector<Event> EventBuff_t;
+typedef Entity Event;
+//typedef string Entity;
+typedef vector<Entity> EventBuff_t;
 typedef vector<Entity> State_t;
 
 class NetworkServer :

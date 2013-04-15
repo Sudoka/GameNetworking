@@ -61,7 +61,8 @@ void NetworkClient::sendToServer(Event e) {
     server.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
     server.sin_port = htons( 8888 );
 	m_server = Network("127.0.0.1", 8888);
-	if(sendto(m_sock, e.c_str(), e.length(), 0, (sockaddr *) &m_server.getSockAddr(), sizeof(server)) == SOCKET_ERROR) {
+	string encoded = e.encode();
+	if(sendto(m_sock, encoded.c_str(), encoded.length(), 0, (sockaddr *) &m_server.getSockAddr(), sizeof(server)) == SOCKET_ERROR) {
 		throw runtime_error("sendto() failed with error code : " + to_string((long long) WSAGetLastError()));
 	}
 }
@@ -79,7 +80,9 @@ void NetworkClient::updateGameState() {
 			cerr << e.what() << endl;
 		}
 		EnterCriticalSection(&m_cs);
-		m_gameState.push_back(string(local_buf));
+		Entity n;
+		m_gameState.push_back(n.decode(string(local_buf)));
+		//m_gameState.push_back(string(local_buf);
 		LeaveCriticalSection(&m_cs);
 	}
 }

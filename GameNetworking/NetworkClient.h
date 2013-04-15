@@ -3,9 +3,9 @@
 #include <exception>
 #include <vector>
 #include<assert.h>
+#include"../core/Entity.h"
 
-typedef string Event;
-typedef string Entity;
+typedef Entity Event;
 typedef vector<Entity> State_t;
 
 class NetworkClient :

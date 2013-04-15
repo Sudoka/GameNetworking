@@ -61,7 +61,7 @@ void NetworkServer::broadcastGameState(const State_t &state) {
 	string local_string;
 	memset(m_packetData,'\0', MAX_PACKET_SIZE);
 	for(unsigned int i = 0; i < state.size(); i++) {
-		local_string += state[i];
+		local_string += state[i].encode();
 	}
 	strncpy(this->m_packetData, local_string.c_str(), MAX_PACKET_SIZE);
 	for(map<Network,Network>::iterator it = start; it != end; it++) {
@@ -109,7 +109,8 @@ void NetworkServer::updateEventsBuffer() {
 		Network lookUpAddr(recv_addr);
 		EnterCriticalSection(&m_cs);
 		m_connectedClients[Network(recv_addr)] = lookUpAddr;
-		m_eventsBuffer.push_back(string(local_buf));
+		Entity n;
+		m_eventsBuffer.push_back(n.decode(string(local_buf)));
 		m_eventsAvailable = true;
 		LeaveCriticalSection(&m_cs);
 	}

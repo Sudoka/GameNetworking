@@ -6,7 +6,7 @@ class Sendable
 public:
 
 	virtual string encode() = 0;
-	virtual string decode() = 0;
+	virtual Sendable& decode(string const &) = 0;
 
 };
 

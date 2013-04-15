@@ -11,7 +11,7 @@ int main(){
 			if (server.eventsAvailable()){
 				eventBuff = server.getEvents();
 				for(unsigned int i = 0; i < eventBuff.size(); i++) {
-					cout << eventBuff[i] << endl;
+					cout << eventBuff[i].getID() << " " << eventBuff[i].m_pos << " " << eventBuff[i].m_dir << endl;
 				}
 			}
 			if(eventBuff.size() < 50) {

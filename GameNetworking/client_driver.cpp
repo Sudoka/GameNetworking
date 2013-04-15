@@ -11,11 +11,11 @@ int main(){
 		State_t state;
 		client.bindToServer("127.0.0.1", 8888);
 		while(1) {
-			client.sendToServer("hello server");
+			client.sendToServer(Entity());
 			Sleep(8);
 			state = client.getGameState();
 			for(int i = 0; i < state.size(); i++) {
-				cout << state[i] << endl;
+				cout << state[i].getID() << " " << state[i].m_pos << " " << state[i].m_dir << endl;
 			}
 		}
 	} catch (const std::exception &exc){
