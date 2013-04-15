@@ -9,14 +9,6 @@ void printEntity(Entity const &e) {
 	}
 
 int main(){
-	/*Entity e1;
-	printEntity(e1);
-	const char* s = e1.encode();
-	Entity e2(e1.decode(s));
-	printEntity(e2);
-	int a;
-	cin >> a;*/
-
 	try{
 		cout << "Server:" << endl;
 		NetworkServer server(8888);
@@ -33,12 +25,12 @@ int main(){
 				server.broadcastGameState(eventBuff);
 			}
 			eventBuff.clear();
-			Sleep(500);
+			Sleep(16);
 		}
 	} catch (exception &e){
+		cout << "exception occured!" << endl;
 		cerr << e.what() << endl;
+		system("pause");
 	}
-
-	
 
 }
