@@ -3,10 +3,11 @@
 #include <exception>
 #include <vector>
 #include<assert.h>
-#include"../core/Entity.h"
+#include"NetworkDecoder.h"
+#include"GameState.h"
 
 typedef Entity Event;
-typedef vector<Entity> State_t;
+typedef GameState State_t;
 
 class NetworkClient :
 	public Network
@@ -37,7 +38,7 @@ public:
 	bool newStateAvailable() { return m_stateAvailable; };
 
 	//sentds event to server
-	void sendToServer(Event);
+	void sendToServer(Event*);
 
 
 	virtual ~NetworkClient(void);

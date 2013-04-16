@@ -3,7 +3,8 @@
 #include<string>
 #include<iostream>
 #include<process.h>
-#include"Sendable.h"
+#include"GameState.h"
+#include"../core/Entity.h"
 
 #pragma comment(lib,"ws2_32.lib")
 

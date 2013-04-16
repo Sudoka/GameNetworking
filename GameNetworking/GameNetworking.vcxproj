@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Entity.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="Network.h" />
     <ClInclude Include="NetworkClient.h" />
     <ClInclude Include="NetworkDecoder.h" />

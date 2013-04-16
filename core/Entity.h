@@ -1,12 +1,12 @@
 /*
- * Entity.hpp
- */
+ Entity.hpp
+	  */
 
-/*#include "D3DX10math.h"
+  /*#include "D3DX10math.h"
 
 enum Type { ENTITY, SHIP, BASE, ASTEROID};
 
-class Entity {
+  class Entity {
 protected:
 	static int id_gen;
 
@@ -35,18 +35,19 @@ public:
 };*/
 
 
-/*
- * Entity.h
+		/*
+ Entity.h
  */
 
-#ifndef ENTITIY_H_INCLUDED
-#define ENTITIY_H_INCLUDED
+#pragma once
+//#ifndef ENTITIY_H_INCLUDED
+//#define ENTITIY_H_INCLUDED
 
 #include <windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
 #include "../GameNetworking/Sendable.h"
-#include<iostream>
+  #include<iostream>
 using namespace std;
 
 enum Type { ENTITY, SHIP, BASE, ASTEROID};
@@ -57,10 +58,11 @@ class Entity {
 private:
 	static int s_id_gen;
 	int m_id;
+	static const unsigned int m_size = sizeof(ENUM_TYPE) + sizeof(int) +  2*sizeof(D3DXVECTOR3);
 
 public:
 	Type m_type;
-	static const unsigned int size;
+	
 	D3DXVECTOR3 m_pos;
 	D3DXVECTOR3 m_dir;
 
@@ -76,10 +78,12 @@ public:
 	const int getID() const { return m_id; };
 	virtual ~Entity();
 	virtual const char * encode() const;
-	virtual Entity decode(const char *) const;
+	virtual void decode(const char *);
+	virtual unsigned int size() { return m_size; };
+
 	friend ostream& operator<<(ostream& os, const Entity& e);
 	
 };
 
 
-#endif
+//#endif

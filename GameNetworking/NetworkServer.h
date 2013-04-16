@@ -2,12 +2,13 @@
 #include "network.h"
 #include <vector>
 #include <map>
+#include "NetworkDecoder.h"
 #include "../core/Entity.h"
 
 typedef Entity Event;
 //typedef string Entity;
-typedef vector<Entity> EventBuff_t;
-typedef vector<Entity> State_t;
+typedef vector<Entity *> EventBuff_t;
+typedef GameState State_t;
 
 class NetworkServer :
 	public Network

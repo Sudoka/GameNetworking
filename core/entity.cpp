@@ -7,7 +7,6 @@
 #include <iostream>
 
 int Entity::s_id_gen = 0;
-const unsigned int Entity::size = sizeof(ENUM_TYPE) + sizeof(m_id) +  2*sizeof(D3DXVECTOR3);
 
 Entity::Entity() :
 m_id(s_id_gen++),
@@ -42,18 +41,17 @@ const char * Entity::encode() const {
 	return tmp;
 }
 
-Entity Entity::decode(const char * tmp) const {
+void Entity::decode(const char * tmp) {
 	//const char* tmp = encoded.c_str();
-	D3DXVECTOR3 m_pos_new;
-	D3DXVECTOR3 m_dir_new;
-	memcpy(m_pos_new,tmp+sizeof(m_id) + sizeof(ENUM_TYPE), sizeof(D3DXVECTOR3));
-	memcpy(m_dir_new,tmp+sizeof(m_id)+sizeof(D3DXVECTOR3) + sizeof(ENUM_TYPE), sizeof(D3DXVECTOR3));
+	/*D3DXVECTOR3 m_pos_new;
+	D3DXVECTOR3 m_dir_new;*/
+	memcpy(&m_pos,tmp+sizeof(m_id) + sizeof(ENUM_TYPE), sizeof(D3DXVECTOR3));
+	memcpy(&m_dir,tmp+sizeof(m_id)+sizeof(D3DXVECTOR3) + sizeof(ENUM_TYPE), sizeof(D3DXVECTOR3));
 	/*D3DXVECTOR3 m_pos_new( *(float*) (tmp + sizeof(m_id)), *(float*) (tmp + sizeof(m_id) + sizeof(float)), *(float*) (tmp + sizeof(m_id) + 2*sizeof(float)));
 	int total = sizeof(m_id) + sizeof(D3DXVECTOR3);
 	D3DXVECTOR3 m_dir_new( *(float*) (tmp + total), *(float*) (tmp + total+sizeof(float)), *(float*) (tmp + total + 2*sizeof(float)));*/
-	Entity rtn(m_pos_new, m_dir_new);
-	rtn.m_id = *(int *) (tmp + sizeof(ENUM_TYPE));
-	return rtn;
+	//Entity rtn(m_pos_new, m_dir_new);
+	m_id = *(int *) (tmp + sizeof(ENUM_TYPE));
 }
 
 Entity::~Entity(){

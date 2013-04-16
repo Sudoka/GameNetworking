@@ -18,17 +18,18 @@ int main(){
 		D3DXVECTOR3 m_pos(2,2,2);
 		D3DXVECTOR3 m_dir(1,1,1);
 		//gameState.push_back(Entity());
-		gameState.push_back(Entity(m_pos, m_dir));
+		Entity *test = new Entity(m_pos,m_dir);
+		gameState.push_back(test);
 
 		for(;;) {
 			if (server.eventsAvailable()) {
 				eventBuff = server.getEvents();
 				for(unsigned int i = 0; i < eventBuff.size(); i++) {
-					cout << eventBuff[i] << endl;
+					cout << *eventBuff[i] << endl;
 				}
 			}
 			if(eventBuff.size() < 50 && !eventBuff.empty()) {
-				gameState[0].m_pos.z += .05;
+				gameState[0]->m_pos.z += .05;
 				server.broadcastGameState(gameState);
 			}
 			if(!eventBuff.empty()) {
