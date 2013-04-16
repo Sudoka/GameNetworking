@@ -51,6 +51,8 @@ using namespace std;
 
 enum Type { ENTITY, SHIP, BASE, ASTEROID};
 
+#define ENUM_TYPE int
+
 class Entity {
 private:
 	static int s_id_gen;

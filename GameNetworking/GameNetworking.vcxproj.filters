@@ -30,6 +30,12 @@
     <ClInclude Include="..\core\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkDecoder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkEncoded.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Network.cpp">
@@ -45,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\core\entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkDecoder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
